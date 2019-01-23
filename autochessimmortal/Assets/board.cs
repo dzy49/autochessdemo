@@ -37,7 +37,7 @@ public class board : MonoBehaviour
         }
     }
 
-    private void addBattleList(GameObject theMinion)
+    public void addBattleList(minons theMinion)
     {
         battleList.Add(theMinion);
     }
