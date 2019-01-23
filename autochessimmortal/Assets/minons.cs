@@ -144,10 +144,32 @@ public class minons : MonoBehaviour
 
     private void moveMinon()
     {
-        gb.changePlace(px, py, locked.px, locked.py + 1);//temporary work
-        px = locked.px;
-        py = locked.py + 1;
-        this.gameObject.transform.localPosition = new Vector2(px*2, py*2);
+        //temporary work
+        if(gb.placeLegal(locked.px, locked.py + 1))
+        {
+            gb.changePlace(px, py, locked.px, locked.py + 1);
+            px = locked.px;
+            py = locked.py + 1;
+        }
+        if (gb.placeLegal(locked.px+1, locked.py))
+        {
+            gb.changePlace(px, py, locked.px+1, locked.py);
+            px = locked.px+1;
+            py = locked.py;
+        }
+        if (gb.placeLegal(locked.px-1, locked.py))
+        {
+            gb.changePlace(px, py, locked.px-1, locked.py);
+            px = locked.px-1;
+            py = locked.py;
+        }
+        if (gb.placeLegal(locked.px, locked.py-1))
+        {
+            gb.changePlace(px, py, locked.px, locked.py - 1);
+            px = locked.px;
+            py = locked.py-1;
+        }
+        this.gameObject.transform.localPosition = new Vector2(px * 2, py * 2);
     }
 
     public void attack()

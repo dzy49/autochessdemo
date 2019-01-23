@@ -64,5 +64,18 @@ public class board : MonoBehaviour
     {
         return gameBoard[px, py];
     }
+
+    public bool placeLegal(int x, int y)
+    {
+        if(x < 0 || y < 0 || x> 4 || y > 4)
+        {
+            return false;
+        }
+        if(gameBoard[x,y] != null)
+        {
+            return false;
+        }
+        return true;
+    }
 }
 
