@@ -73,6 +73,7 @@ public class minons : MonoBehaviour
         if (HP < 1)
         {
             Destroy(this.gameObject);
+            gb.deleBattleList(this);
         }
     }
     private void makeTarget()
