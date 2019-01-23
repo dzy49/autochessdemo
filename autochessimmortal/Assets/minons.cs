@@ -46,6 +46,10 @@ public class minons : MonoBehaviour
         if (locked == null)
         {
             locked = findTarget();
+            if(locked == null)
+            {
+                print("game end");
+            } 
         }
         Ifinrange();
         if (inrange == false)
@@ -90,6 +94,10 @@ public class minons : MonoBehaviour
         minons maxMinon = null;
         foreach (KeyValuePair<minons, int> entry in distanceList)
         {
+            if(entry.Key.player == this.player)
+            {
+                continue;
+            }
             if (maxDis < entry.Value)
             {
                 maxDis = entry.Value;
