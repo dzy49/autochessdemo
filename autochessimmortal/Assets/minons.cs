@@ -18,7 +18,7 @@ public class minons : MonoBehaviour
 
     // Use this for initialization
     void Start()
-    { 
+    {
         gb.addBattleList(this);
     }
     // Update is called once per frame
@@ -64,7 +64,7 @@ public class minons : MonoBehaviour
     {
         if (HP < 1)
         {
-
+            Destroy(this.gameObject);
         }
     }
     private void makeTarget()

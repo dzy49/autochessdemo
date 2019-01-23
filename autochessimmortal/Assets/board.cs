@@ -8,9 +8,13 @@ public class board : MonoBehaviour
     public minons[,] gameBoard = new minons[5, 5];
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         battleList = new ArrayList();
+    }
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -41,6 +45,11 @@ public class board : MonoBehaviour
     {
         battleList.Add(theMinion);
         gameBoard[theMinion.px, theMinion.py] = theMinion;
+    }
+
+    public void deleBattleList(minons theMinion)
+    {
+
     }
 
     public void changePlace(int sx, int sy, int tx, int ty)
