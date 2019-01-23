@@ -10,7 +10,6 @@ public class board : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        gameBoard[1, 1] = new minons();
     }
 
     // Update is called once per frame
@@ -40,6 +39,7 @@ public class board : MonoBehaviour
     public void addBattleList(minons theMinion)
     {
         battleList.Add(theMinion);
+        gameBoard[theMinion.px, theMinion.py] = theMinion;
     }
 
     public void changePlace(int sx, int sy, int tx, int ty)
