@@ -58,7 +58,7 @@ public class minons : MonoBehaviour
         Ifinrange();
         if (inrange == false)
         {
-            moveMinon();
+            blinkMove();
         }
     }
     private void attackBehavior()
@@ -155,43 +155,80 @@ public class minons : MonoBehaviour
         return disx + disy;
     }
 
-    private void moveMinon()
+    private void stepMove()
     {
-        //temporary work
+        int verX = locked.px - px;
+        int verY = locked.py - py;
+        int biasX = 0;
+        int biasY = 0;
+        if (verX > 0)
+        {
+            biasX = 1;
+        }
+        if(verX < 0){
+            biasX = -1;
+        }
+        if(verY > 0)
+        {
+            biasY = 1;
+        }
+        if(verY < 0)
+        {
+            biasY = -1;
+        }
+        if (biasX == 0 && biasY == 0)
+        {
+            return;
+        }
+        if (gb.placeLegal(px + biasX, py))
+        {
+            gb.changePlace(px, py, px + biasX, py);
+            px += biasX;
+            this.gameObject.transform.localPosition = new Vector2(px * 2, py * 2);
+            return;
+        }
+        if (gb.placeLegal(px, py + biasY))
+        {
+            gb.changePlace(px, py, px, py + biasY);
+            py += biasY;
+            this.gameObject.transform.localPosition = new Vector2(px * 2, py * 2);
+            return;
+        }
+    }
+
+    private void blinkMove()
+    {
+        int biasX = 0;
+        int biasY = 0;
         if(gb.placeLegal(locked.px, locked.py + 1))
         {
-            gb.changePlace(px, py, locked.px, locked.py + 1);
-            px = locked.px;
-            py = locked.py + 1;
-            this.gameObject.transform.localPosition = new Vector2(px * 2, py * 2);
-            return;
+            biasX = 0;
+            biasY = 1;
         }
-        if (gb.placeLegal(locked.px+1, locked.py))
+        else if (gb.placeLegal(locked.px+1, locked.py))
         {
-            gb.changePlace(px, py, locked.px+1, locked.py);
-            px = locked.px+1;
-            py = locked.py;
-            this.gameObject.transform.localPosition = new Vector2(px * 2, py * 2);
-            return;
+            biasX = 1;
+            biasY = 0;
         }
-        if (gb.placeLegal(locked.px-1, locked.py))
+        else if (gb.placeLegal(locked.px-1, locked.py))
         {
-            gb.changePlace(px, py, locked.px-1, locked.py);
-            px = locked.px-1;
-            py = locked.py;
-            this.gameObject.transform.localPosition = new Vector2(px * 2, py * 2);
-            return;
+            biasX = -1;
+            biasY = 0;
         }
-        if (gb.placeLegal(locked.px, locked.py-1))
+        else if (gb.placeLegal(locked.px, locked.py-1))
         {
-            gb.changePlace(px, py, locked.px, locked.py - 1);
-            px = locked.px;
-            py = locked.py-1;
-            this.gameObject.transform.localPosition = new Vector2(px * 2, py * 2);
+            biasX = 0;
+            biasY = -1;
+        }
+        if(biasX == 0 && biasY == 0)
+        {
             return;
         }
-
-        
+        gb.changePlace(px, py, locked.px + biasX, locked.py + biasY);
+        px = locked.px + biasX;
+        py = locked.py + biasY;
+        this.gameObject.transform.localPosition = new Vector2(px * 2, py * 2);
+        return;
     }
 
     public void attack()
