@@ -18,7 +18,7 @@ public class minons : MonoBehaviour
 
     // Use this for initialization
     void Start()
-    {
+    { 
         gb.addBattleList(this);
     }
     // Update is called once per frame
@@ -147,6 +147,7 @@ public class minons : MonoBehaviour
         gb.changePlace(px, py, locked.px, locked.py + 1);//temporary work
         px = locked.px;
         py = locked.py + 1;
+        this.gameObject.transform.localPosition = new Vector2(px*2, py*2);
     }
 
     public void attack()

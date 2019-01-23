@@ -10,6 +10,7 @@ public class board : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        battleList = new ArrayList();
     }
 
     // Update is called once per frame
