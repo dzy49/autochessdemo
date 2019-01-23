@@ -19,7 +19,7 @@ public class minons : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        gb.addBattleList(this);
     }
     // Update is called once per frame
     void Update()
