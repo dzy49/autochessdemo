@@ -12,6 +12,7 @@ public class board : MonoBehaviour
     {
         battleList = new ArrayList();
     }
+
     void Start()
     {
         
@@ -49,7 +50,8 @@ public class board : MonoBehaviour
 
     public void deleBattleList(minons theMinion)
     {
-
+        battleList.Remove(theMinion);
+        gameBoard[theMinion.px, theMinion.py] = null;
     }
 
     public void changePlace(int sx, int sy, int tx, int ty)
