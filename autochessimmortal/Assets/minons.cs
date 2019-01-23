@@ -17,6 +17,10 @@ public class minons : MonoBehaviour
     public minons locked = null;
 
     // Use this for initialization
+    void Awake()
+    {
+        gb = GameObject.Find("mboard").GetComponent<board>();
+    }
     void Start()
     {
         gb.addBattleList(this);
@@ -49,7 +53,7 @@ public class minons : MonoBehaviour
             if(locked == null)
             {
                 print("game end");
-            } 
+            }
         }
         Ifinrange();
         if (inrange == false)
