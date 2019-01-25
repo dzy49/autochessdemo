@@ -14,6 +14,7 @@ public class minons : MonoBehaviour
     public bool inrange;
     public int maxdistance;
     public int attackrange, abilitytype;
+    public int state;
     public minons locked = null;
 
     // Use this for initialization
