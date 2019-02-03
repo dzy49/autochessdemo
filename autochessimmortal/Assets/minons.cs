@@ -237,7 +237,7 @@ public class minons : MonoBehaviour
 
         if (MP < 100)
         {
-            locked.HP -= AD;
+            locked.attacked(AD);
         }
         else
         {
@@ -292,5 +292,10 @@ public class minons : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void attacked(int damage)
+    {
+        HP -= damage;
     }
 }
