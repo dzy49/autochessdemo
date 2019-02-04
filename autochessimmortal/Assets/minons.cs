@@ -14,9 +14,14 @@ public class minons : MonoBehaviour
     public bool inrange;
     public int maxdistance;
     public int attackrange, abilitytype;
-    public int state;
+    public States state;
     public minons locked = null;
+    public enum States
+    {
+        wait=1,
+        battle=2
 
+    }
     // Use this for initialization
     void Awake()
     {
@@ -33,17 +38,19 @@ public class minons : MonoBehaviour
     }
     public void CallBack(int MAD)
     {
-        switch (MAD)
-        {
-            case 0:
-                moveBehavior();
-                break;
-            case 1:
-                attackBehavior();
-                break;
-            case 2:
-                deathBehavior();
-                break;
+        if (state !=States.wait){
+            switch (MAD)
+            {
+                case 0:
+                    moveBehavior();
+                    break;
+                case 1:
+                    attackBehavior();
+                    break;
+                case 2:
+                    deathBehavior();
+                    break;
+            }
         }
     }
     private void moveBehavior()

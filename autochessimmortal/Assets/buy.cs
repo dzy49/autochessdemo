@@ -37,7 +37,7 @@ public class buy : MonoBehaviour {
             print(this.gameObject.name[4]);
             gb.storepool[Int32.Parse(this.gameObject.name[4].ToString())] = -1;
             GameObject a= (GameObject)Instantiate(Resources.Load("warrior") as GameObject);
-
+            a.GetComponent<minons>().state = minons.States.wait;
             a.transform.localPosition = new Vector2(i,0);
             this.gameObject.GetComponent<Text>().text = "";
 

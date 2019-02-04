@@ -32,13 +32,13 @@ public class board : MonoBehaviour
         foreach (minons m in battleList)
         {
             m.CallBack(0);
-            m.state = 0;
+            //m.state = 0;
         }
 
         foreach (minons m in battleList)
         {
             m.CallBack(1);
-            m.state = 1;
+            //m.state = minons.States.battle;
             //GameObject attacksword = (GameObject)Instantiate(Resources.Load("swordpre"));
             //attacksword.name = "sprite";
             //attacksword.transform.localPosition = new Vector2(m.gameObject.transform.position.x, m.gameObject.transform.position.y+1);
@@ -47,7 +47,7 @@ public class board : MonoBehaviour
         foreach (minons m in battleList)
         {
             m.CallBack(2);
-            m.state = 2;
+           // m.state = 2;
         }
     }
 
