@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class board : MonoBehaviour
 {
+    public int[] storepool;
+    public int[] waitpool;
     private ArrayList battleList;
     public minons[,] gameBoard = new minons[5, 5];
 
@@ -11,6 +13,7 @@ public class board : MonoBehaviour
     void Awake()
     {
         battleList = new ArrayList();
+        waitpool =new int[]{ -1, -1, -1, -1, -1};
     }
 
     void Start()
