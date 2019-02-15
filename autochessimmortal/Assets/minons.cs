@@ -18,6 +18,8 @@ public class minons : MonoBehaviour
     public minons locked = null;
     private bool isMouseDown = false;
     private Vector3 lastMousePosition = Vector3.zero;
+    private bool beingDragged;
+
     public enum States
     {
         wait=1,
@@ -36,28 +38,28 @@ public class minons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        bool overSprite = GetComponent<SpriteRenderer>().bounds.Contains(mousePosition);
+        beingDragged = beingDragged && Input.GetButton("Fire1");
+        if (overSprite)
         {
-            isMouseDown = true;
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            isMouseDown = false;
-            lastMousePosition = Vector3.zero;
-        }
-        if (isMouseDown)
-        {
-            if (lastMousePosition != Vector3.zero)
+            //If we've pressed down on the mouse (or touched on the iphone)
+            if (Input.GetButton("Fire1"))
             {
-                Vector3 offset = Camera.main.ScreenToWorldPoint(Input.mousePosition) - lastMousePosition;
-                this.transform.position += offset;
+                beingDragged = true;
             }
-            lastMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         }
-
-      
+        if (beingDragged)
+        {
+            //Set the position to the mouse position
+            transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
+                                             Camera.main.ScreenToWorldPoint(Input.mousePosition).y,
+                                             0.0f);
+        }
     }
+
+ 
     public void CallBack(int MAD)
     {
         if (state !=States.wait){
