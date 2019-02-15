@@ -16,6 +16,8 @@ public class minons : MonoBehaviour
     public int attackrange, abilitytype;
     public States state;
     public minons locked = null;
+    private bool isMouseDown = false;
+    private Vector3 lastMousePosition = Vector3.zero;
     public enum States
     {
         wait=1,
@@ -34,7 +36,27 @@ public class minons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            isMouseDown = true;
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            isMouseDown = false;
+            lastMousePosition = Vector3.zero;
+        }
+        if (isMouseDown)
+        {
+            if (lastMousePosition != Vector3.zero)
+            {
+                Vector3 offset = Camera.main.ScreenToWorldPoint(Input.mousePosition) - lastMousePosition;
+                this.transform.position += offset;
+            }
+            lastMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+        }
+
+      
     }
     public void CallBack(int MAD)
     {

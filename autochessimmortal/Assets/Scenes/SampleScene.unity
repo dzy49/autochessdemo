@@ -738,11 +738,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d8c2ac489c9e7458e8ecbca6113e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 100
+  HP: 500
   MP: 0
   player: 1
   gb: {fileID: 0}
-  AD: 2
+  AD: 20
   px: 3
   py: 3
   inrange: 0
