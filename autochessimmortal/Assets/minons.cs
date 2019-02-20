@@ -40,7 +40,14 @@ public class minons : MonoBehaviour
     {
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        bool overSprite = GetComponent<SpriteRenderer>().bounds.Contains(mousePosition);
+        bool overSprite=false;
+        //bool overSprite = GetComponent<SpriteRenderer>().bounds.Contains(mousePosition);
+        if (board.onedraged == "new")
+        {
+            overSprite = GetComponent<BoxCollider2D>().bounds.Contains(mousePosition);
+            board.onedraged = this.gameObject.name;
+        }
+        
         beingDragged = beingDragged && Input.GetButton("Fire1");
         if (overSprite)
         {
@@ -56,6 +63,33 @@ public class minons : MonoBehaviour
             transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
                                              Camera.main.ScreenToWorldPoint(Input.mousePosition).y,
                                              0.0f);
+        }
+        else
+        {
+            int newx=(int)(transform.position.x+1)/2;
+            int newy = (int)(transform.position.y+1) / 2;
+           
+            transform.position = new Vector3((float)newx * 2, (float)newy * 2, 0.0f);
+            
+           
+            if (state == States.battle)
+            {
+                gb.changePlace(px, py, newx, newy);
+            }
+            px = newx;
+            py = newy;
+            if (board.onedraged == this.gameObject.name)
+            {
+                board.onedraged = "new";
+            }
+
+           if (transform.position.x>=0&& transform.position.x <= 10&& transform.position.y <= 10&& transform.position.y >= 0&&state==States.wait)
+            {
+               gb.addBattleList(this);
+                state = States.battle;
+            }
+            
+            
         }
     }
 
@@ -75,6 +109,10 @@ public class minons : MonoBehaviour
                     deathBehavior();
                     break;
             }
+        }
+        if (MAD == 2)
+        {
+            deathBehavior();
         }
     }
     private void moveBehavior()
@@ -100,12 +138,16 @@ public class minons : MonoBehaviour
             attack();
         }
     }
-    private void deathBehavior()
+    public minons deathBehavior()
     {
         if (HP < 1)
         {
             Destroy(this.gameObject);
-            gb.deleBattleList(this);
+            return this;
+        }
+        else
+        {
+            return null;
         }
     }
     private void makeTarget()
@@ -123,7 +165,14 @@ public class minons : MonoBehaviour
             {
                 if (gb.gameBoard[i, j] != null)
                 {
-                    distanceList.Add(gb.gameBoard[i, j], getDis(i, j));
+                    if (distanceList.ContainsKey(gb.gameBoard[i, j]))
+                    {
+                        distanceList[gb.gameBoard[i, j]] = getDis(i, j);
+                    }
+                    else
+                    {
+                        distanceList.Add(gb.gameBoard[i, j], getDis(i, j));
+                    }
                 }
             }
         }
@@ -277,16 +326,14 @@ public class minons : MonoBehaviour
     }
     public void specialAttack()
     {
-        switch (abilitytype)
-        {
-            case 0:
+        
                 locked.HP -= AD;
                 if (px == locked.px)
                 {
                     if (py > locked.py)
                     {
                         //down
-                        if (gb.GetMinons(px, locked.py - 1) != null)
+                        if (locked.py -1 >=0 && gb.GetMinons(px, locked.py - 1) != null)
                         {
                             gb.GetMinons(px, locked.py - 1).HP -= AD;
                         }
@@ -294,7 +341,7 @@ public class minons : MonoBehaviour
                     else
                     {
                         //up
-                        if (gb.GetMinons(px, locked.py + 1) != null)
+                        if (locked.py + 1 <board.SIZE &&gb.GetMinons(px, locked.py + 1) != null)
                         {
                             gb.GetMinons(px, locked.py + 1).HP -= AD;
                         }
@@ -305,7 +352,7 @@ public class minons : MonoBehaviour
                     if (px > locked.px)
                     {
                         //left
-                        if (gb.GetMinons(locked.px - 1, py) != null)
+                        if (locked.px - 1 >= 0 && gb.GetMinons(locked.px - 1, py) != null)
                         {
                             gb.GetMinons(locked.px - 1, py).HP -= AD;
                         }
@@ -313,16 +360,14 @@ public class minons : MonoBehaviour
                     else
                     {
                         //right
-                        if (gb.GetMinons(locked.px + 1, py) != null)
+                        if (locked.px + 1 < board.SIZE&&gb.GetMinons(locked.px + 1, py) != null)
                         {
                             gb.GetMinons(locked.px + 1, py).HP -= AD;
                         }
                     }
                 }
-                break;
-            default:
-                break;
-        }
+            
+        
     }
 
     public void attacked(int damage)
