@@ -277,6 +277,123 @@ public class minons : MonoBehaviour
         }
     }
 
+    struct Vertice
+    {
+        public int pos;
+        public int prepos;
+        public int dis;
+        public bool picked;
+    };
+    private int dijstraMove() {
+        int boardScale = gb.SIZE * gb.SIZE;
+        int boardSize = gb.SIZE;
+        List<Vertice> Q = new List<Vertice>();
+        List<Vertice> P = new List<Vertice>();
+        List<int> occuList = new List<int>();
+        for(int i = 0; i < boardSize; i++)
+        {
+            for(int j = 0;j < boardSize; j++)
+            {
+                if(gb.gameBoard[i][j] != null)
+                {
+                    occuList.Add(i + 5 * j);
+                }
+            }
+        }
+        for(int i = 0; i < boardScale; i++)
+        {
+            Vertice ver;
+            Q.Add(ver);
+            Q[i].dis = 70000;
+            Q[i].pos = i;
+            Q[i].prepos = -1;
+            Q[i].picked = false;
+        }
+        int origin = px + py;
+        int target = locked.px + locked.py;
+        Q[origin].dis = 0;
+        Q[origin].prepos = -2;
+        Q[origin].picked = true;
+        foreach(int u in occuList)
+        {
+            Q[u].picked = true;
+        }
+        foreach(int u in getAdjPos(origin, boardSize))
+        {
+            if (occuList.Contains(u) == false)
+            {
+                Q[u].dis = 1;
+                Q[u].prepos = origin;
+            }
+        }
+        bool allPicked = false;
+        while(allPicked == false)
+        {
+            int mindis = 70000;
+            int k = -1;
+            foreach(Vertice ver in Q)
+            {
+                if(ver.dis < mindis && ver.picked == false)
+                {
+                    mindis = ver.dis;
+                    k = ver.pos;
+                }
+            }
+            Q[k].picked = true;
+            if(k == target)
+            {
+                //route found
+                int post = k;
+                while(Q[post].prepos != origin)
+                {
+                    post = Q[post].prepos;
+                }
+                return post;//post = x + size * y;
+            }
+            foreach (int u in getAdjPos(k, boardSize))
+            {
+                if (Q[u].picked == false)
+                {
+                    Q[u].dis = 1;
+                    Q[u].prepos = k;
+                }
+            }
+            allPicked = true;
+            foreach(Vertice ver in Q)
+            {
+                if(ver.picked == false)
+                {
+                    allPicked = false;
+                }
+            }
+            if(mindis == 70000)
+            {
+                return 0;//route doesn't exist
+            }
+        }
+    }
+    private List<int> getAdjPos(int pos, int size)
+    {
+        List<int> adjPos = new List<int>();
+        int scale = size * size - 1;
+        if(pos+1 < scale)
+        {
+            adjPos.Add(pos + 1);
+        }
+        if (pos + size < scale)
+        {
+            adjPos.Add(pos + size);
+        }
+        if(pos - size > -1)
+        {
+            adjPos.Add(pos - size);
+        }
+        if(pos%size > 0)
+        {
+            adjPos.Add(pos - 1);
+        }
+    }
+
     private void blinkMove()
     {
         int biasX = 0;
