@@ -284,6 +284,7 @@ public class minons : MonoBehaviour
         public int dis;
         public bool picked;
     };
+    /*
     private int dijstraMove() {
         int boardScale = gb.SIZE * gb.SIZE;
         int boardSize = gb.SIZE;
@@ -393,7 +394,7 @@ public class minons : MonoBehaviour
             adjPos.Add(pos - 1);
         }
     }
-
+    */
     private void blinkMove()
     {
         int biasX = 0;
