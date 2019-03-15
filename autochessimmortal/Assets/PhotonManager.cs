@@ -11,13 +11,14 @@ public class PhotonManager : MonoBehaviour, IPhotonPeerListener
 
     private PhotonPeer peer;                                        //连接服务器
     private ConnectionProtocol protocol = ConnectionProtocol.Udp;   //协议是UDP，这是可靠的UDP
-    private string serverAddress = "127.0.0.1:5055";                //本机IP，5055端口
+    private string serverAddress = "100.15.119.89:5055";                //本机IP，5055端口
     private string applicationName = "MyGameServer";                //服务器应用名称，PhotonServer配置的
 
     private bool connected = false;                                 //是否正在连接
 
     public AccountReceiver accountReceiver;                         //帐号处理
     public ChatReceiver chatRceiver;                                //聊天信息接收      
+    public BattleReceiver battleReceiver;
 
     public string MasterName;
 
@@ -78,6 +79,9 @@ public class PhotonManager : MonoBehaviour, IPhotonPeerListener
                 break;
             case OpCode.Room:
                 chatRceiver.OnReceive(subCode,response); 
+                break;
+            case OpCode.Battle:
+                battleReceiver.OnReceive(subCode,response);
                 break;
             default:
                 break;

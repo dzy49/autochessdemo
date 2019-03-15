@@ -181,7 +181,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u5E10\u53F7\uFF1A"
+  m_Text: "Account\uFF1A"
 --- !u!222 &17992033
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -514,7 +514,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u767B\u5F55"
+  m_Text: Login
 --- !u!222 &137926977
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -646,7 +646,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u6CE8\u518C"
+  m_Text: Register
 --- !u!222 &258234202
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -721,7 +721,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u6CE8\u518C\u5E10\u53F7"
+  m_Text: Register Account
 --- !u!222 &290827714
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1352,7 +1352,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u5E10\u53F7\uFF1A"
+  m_Text: 'Account:'
 --- !u!222 &514281868
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1428,7 +1428,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u5BC6\u7801\uFF1A"
+  m_Text: "Password\uFF1A"
 --- !u!222 &570709048
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2011,7 +2011,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u5BC6\u7801\uFF1A"
+  m_Text: "Password\uFF1A"
 --- !u!222 &951995434
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3549,6 +3549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accountReceiver: {fileID: 1091794632}
   chatRceiver: {fileID: 1230810911}
+  battleReceiver: {fileID: 0}
   MasterName: 
   tipText: {fileID: 1680690880}
 --- !u!4 &1556715209
@@ -4540,7 +4541,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8FD4\u56DE"
+  m_Text: Back
 --- !u!222 &1931718712
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4615,7 +4616,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u767B\u5F55\u754C\u9762"
+  m_Text: Login
 --- !u!222 &1935141412
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4971,7 +4972,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u6CE8\u518C"
+  m_Text: register
 --- !u!222 &2144799184
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using ExitGames.Client.Photon;
 using Common.Code;
 using Common.Dto;
+using UnityEngine.SceneManagement;
 
 //聊天房间的信息处理
 public class ChatReceiver : MonoBehaviour ,IReceiver
@@ -18,6 +19,8 @@ public class ChatReceiver : MonoBehaviour ,IReceiver
                 {
                     //获取房间信息并初始化
                     chatView.Init(GetResponseFromJson<RoomDto>(response));
+                    //Application.LoadLevel("Scene_2");
+                    SceneManager.LoadScene("SampleScene");
                 }
                 break;
             case RoomCode.Add:                      //房间有新用户处理

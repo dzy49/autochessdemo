@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Common.Dto;
+using Common.Code;
 
 public class board : MonoBehaviour
 {
@@ -14,6 +16,13 @@ public class board : MonoBehaviour
     public static int count = 0;
     private List<minons> deadList;
     public int gold;
+    public game_state gamestate = 0;
+    
+    public enum game_state
+    {
+        purchase=0,
+        battle=1
+    }
 
     // Use this for initialization
     void Awake()
@@ -37,31 +46,56 @@ public class board : MonoBehaviour
 
     private void FixedUpdate()
     {
-        foreach (minons m in battleList)
-        {
-            m.CallBack(0);
-            //m.state = 0;
-        }
+        if (gamestate==game_state.battle) {
+            foreach (minons m in battleList)
+            {
+                m.CallBack(0);
+                //m.state = 0;
+            }
 
-        foreach (minons m in battleList)
-        {
-            m.CallBack(1);
-            //m.state = minons.States.battle;
-            //GameObject attacksword = (GameObject)Instantiate(Resources.Load("swordpre"));
-            //attacksword.name = "sprite";
-            //attacksword.transform.localPosition = new Vector2(m.gameObject.transform.position.x, m.gameObject.transform.position.y+1);
-        }
+            foreach (minons m in battleList)
+            {
+                m.CallBack(1);
+                //m.state = minons.States.battle;
+                //GameObject attacksword = (GameObject)Instantiate(Resources.Load("swordpre"));
+                //attacksword.name = "sprite";
+                //attacksword.transform.localPosition = new Vector2(m.gameObject.transform.position.x, m.gameObject.transform.position.y+1);
+            }
 
-        foreach (minons m in battleList)
-        {
+            foreach (minons m in battleList)
+            {
 
-            minons temp = m.deathBehavior();
-            // m.state = 2;
-            if (temp != null) {
-                deadList.Add(temp);
-             }
+                minons temp = m.deathBehavior();
+                // m.state = 2;
+                if (temp != null) {
+                    deadList.Add(temp);
+                }
+            }
+            battleList = battleList.Except(deadList).ToList();
         }
-        battleList = battleList.Except(deadList).ToList();
+    }
+
+    public void OnBattleClick()
+    {
+
+    }
+
+    public void SendBattleListRequest(string accountName, string password, byte subCode)
+    {
+        MinonsDto dto = new MinonsDto();
+        dto.battleList = GetCurrentBattleList();
+        Dictionary<byte, object> parameters = new Dictionary<byte, object>();
+        parameters[0] = JsonUtility.ToJson(dto);
+        PhotonManager.Instance.OnOperationRequest((byte)OpCode.Battle, parameters, subCode);
+    }
+
+    public int[][] GetCurrentBattleList()
+    {
+        return null;
+    }
+    public void Changestate()
+    {
+        gamestate = game_state.battle;
     }
 
     public void addBattleList(minons theMinion)
