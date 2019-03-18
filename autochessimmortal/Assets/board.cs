@@ -17,7 +17,9 @@ public class board : MonoBehaviour
     private List<minons> deadList;
     public int gold;
     public game_state gamestate = 0;
-    
+    public static int id = 0;
+    private Dictionary<byte, object> parameters = new Dictionary<byte, object>();
+
     public enum game_state
     {
         purchase=0,
@@ -75,23 +77,34 @@ public class board : MonoBehaviour
         }
     }
 
-    public void OnBattleClick()
-    {
-
-    }
-
-    public void SendBattleListRequest(string accountName, string password, byte subCode)
+    public void SendBattleListRequest()
     {
         MinonsDto dto = new MinonsDto();
         dto.battleList = GetCurrentBattleList();
+        dto.playerID = id;
         Dictionary<byte, object> parameters = new Dictionary<byte, object>();
         parameters[0] = JsonUtility.ToJson(dto);
-        PhotonManager.Instance.OnOperationRequest((byte)OpCode.Battle, parameters, subCode);
+        print(JsonUtility.ToJson(dto));
+        PhotonManager.Instance.OnOperationRequest((byte)OpCode.Battle, parameters, (byte)BattleCode.SendList);
     }
 
-    public int[][] GetCurrentBattleList()
+    public int[] GetCurrentBattleList()
     {
-        return null;
+        int[] battlelist =new int[25];
+        
+        for (int i = 0; i < 5; i++)
+        {
+            
+            for(int j = 0; j < 5; j++)
+            {
+                
+                if (gameBoard[i, j] != null)
+                {
+                    battlelist[i*5+j] = 1;
+                }
+            }
+        }
+        return battlelist;
     }
     public void Changestate()
     {

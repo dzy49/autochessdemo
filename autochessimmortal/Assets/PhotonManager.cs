@@ -19,7 +19,7 @@ public class PhotonManager : MonoBehaviour, IPhotonPeerListener
     public AccountReceiver accountReceiver;                         //帐号处理
     public ChatReceiver chatRceiver;                                //聊天信息接收      
     public BattleReceiver battleReceiver;
-
+    
     public string MasterName;
 
     public Text tipText;      

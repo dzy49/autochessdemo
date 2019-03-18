@@ -22,7 +22,7 @@ public class ChatView : MonoBehaviour
     public void Init(RoomDto room)
     {
         loginCanvas.SetActive(false);   //隐藏登录面板
-        chatCanvas.SetActive(true);     //显示聊天面板
+        //chatCanvas.SetActive(true);     //显示聊天面板
 
         textContent.text = "";
         foreach (var item in room.AccountList)

@@ -19,8 +19,7 @@ public class ChatReceiver : MonoBehaviour ,IReceiver
                 {
                     //获取房间信息并初始化
                     chatView.Init(GetResponseFromJson<RoomDto>(response));
-                    //Application.LoadLevel("Scene_2");
-                    SceneManager.LoadScene("SampleScene");
+                    //SceneManager.LoadScene("SampleScene");
                 }
                 break;
             case RoomCode.Add:                      //房间有新用户处理

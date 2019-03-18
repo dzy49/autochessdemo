@@ -39,12 +39,13 @@ public class minons : MonoBehaviour
     void Update()
     {
 
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePosition1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
         bool overSprite=false;
         //bool overSprite = GetComponent<SpriteRenderer>().bounds.Contains(mousePosition);
         if (board.onedraged == "new")
         {
-            overSprite = GetComponent<BoxCollider2D>().bounds.Contains(mousePosition);
+            overSprite = GetComponent<BoxCollider2D>().bounds.Contains(mousePosition1);
             board.onedraged = this.gameObject.name;
         }
         
@@ -62,7 +63,7 @@ public class minons : MonoBehaviour
             //Set the position to the mouse position
             transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
                                              Camera.main.ScreenToWorldPoint(Input.mousePosition).y,
-                                             0.0f);
+                                              0.0f);
         }
         else
         {
