@@ -8,6 +8,7 @@ using UnityEngine;
 public class BattleReceiver : MonoBehaviour, IReceiver {
     board gameboard;
     int playerID = board.id;
+    GameObject timer;
     // Use this for initialization
     void Start() {
 
@@ -24,6 +25,7 @@ public class BattleReceiver : MonoBehaviour, IReceiver {
         switch ((BattleCode)subCode)
         {
             case BattleCode.AllReady:
+                timer.GetComponent<CountDown>().StartCountDown();
                 break;
             case BattleCode.SendList:
                 MinonsDto battleDto = GetResponseFromJson<MinonsDto>(response);
@@ -39,11 +41,12 @@ public class BattleReceiver : MonoBehaviour, IReceiver {
                             if (temparr[i][j] != 0)
                             {
                                 GameObject a = (Resources.Load("warrior") as GameObject);
-                                Instantiate(a, new Vector3(i * 2.0F, 11, 0), Quaternion.identity);
+                                Instantiate(a, new Vector3(j * 2.0F, i*2, 0), Quaternion.identity);
                                 a.GetComponent<minons>().state = minons.States.wait;
                                 a.transform.localPosition = new Vector2(i*2, j*2);
-                                a.GetComponent<minons>().px = i;
-                                a.GetComponent<minons>().py = j;
+                                a.GetComponent<minons>().px = j;
+                                a.GetComponent<minons>().py = i;
+                                a.GetComponent<minons>().player = playerID;
                                 board.count++;
                                 a.name = board.count.ToString();
                             }

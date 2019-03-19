@@ -100,7 +100,8 @@ public class board : MonoBehaviour
                 
                 if (gameBoard[i, j] != null)
                 {
-                    battlelist[i*5+j] = 1;
+                    print("gb:" + i + ":" + j);
+                    battlelist[i+j*5] = 1;
                 }
             }
         }

@@ -33,7 +33,7 @@ public class minons : MonoBehaviour
     }
     void Start()
     {
-        gb.addBattleList(this);
+        //gb.addBattleList(this);
     }
     // Update is called once per frame
     void Update()

@@ -24,7 +24,7 @@ public class buy : MonoBehaviour {
     public void makePurchase()
     {
         int i;
-        if (this.gameObject.GetComponent<Text>().text == "warrior")
+        if (this.gameObject.GetComponent<Text>().text == "warrior"&&GetGold()>0)
         {
             for (i=0; i < 5; i++)
             {
@@ -48,5 +48,10 @@ public class buy : MonoBehaviour {
             this.gameObject.GetComponent<Text>().text = "";
 
         }
+    }
+
+    public int GetGold()
+    {
+        return Int32.Parse(GameObject.Find("GoldText").GetComponent<Text>().text);
     }
 }
