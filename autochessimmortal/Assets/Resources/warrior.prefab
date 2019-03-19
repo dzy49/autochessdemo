@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 114818578221114366}
   - component: {fileID: 61445299022003326}
   m_Layer: 0
-  m_Name: 6
+  m_Name: warrior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1611955551078652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 0, z: 0}
+  m_LocalPosition: {x: 2, y: -5, z: 0}
   m_LocalScale: {x: 0.80172, y: 0.80172, z: 0.80172}
   m_Children:
   - {fileID: 4480938993128992}
@@ -157,8 +157,8 @@ MonoBehaviour:
   player: 0
   gb: {fileID: 0}
   AD: 1
-  px: 4
-  py: 0
+  px: 0
+  py: 4
   inrange: 0
   maxdistance: 0
   attackrange: 1

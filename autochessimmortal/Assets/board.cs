@@ -19,13 +19,25 @@ public class board : MonoBehaviour
     public game_state gamestate = 0;
     public static int id = 0;
     private Dictionary<byte, object> parameters = new Dictionary<byte, object>();
-
+    public GameObject purchasePanel;
     public enum game_state
     {
         purchase=0,
         battle=1
     }
-
+    public void purchasePanelSwitch()
+    {
+        if (purchasePanel.activeInHierarchy == true)
+        {
+            purchasePanel.SetActive(false);
+        }
+        else
+        {
+            purchasePanel.SetActive(true);
+        }
+        
+        
+    }
     // Use this for initialization
     void Awake()
     {

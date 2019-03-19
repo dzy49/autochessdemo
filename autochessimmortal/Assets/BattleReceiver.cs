@@ -8,7 +8,7 @@ using UnityEngine;
 public class BattleReceiver : MonoBehaviour, IReceiver {
     board gameboard;
     int playerID = board.id;
-    GameObject timer;
+    public CountDown timer;
     // Use this for initialization
     void Start() {
 
@@ -25,7 +25,7 @@ public class BattleReceiver : MonoBehaviour, IReceiver {
         switch ((BattleCode)subCode)
         {
             case BattleCode.AllReady:
-                timer.GetComponent<CountDown>().StartCountDown();
+                timer.StartCountDown();
                 break;
             case BattleCode.SendList:
                 MinonsDto battleDto = GetResponseFromJson<MinonsDto>(response);

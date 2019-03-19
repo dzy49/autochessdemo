@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CountDown : MonoBehaviour {
 
     public int TotalTime = 60;
-
+    public board gameboard;
     public void StartCountDown()
     {
 
@@ -23,6 +23,11 @@ public class CountDown : MonoBehaviour {
             TotalTime--;
 
         }
+        if (TotalTime == 0)
+        {
+            gameboard.SendBattleListRequest();
+        }
+        
     }
 
 }
