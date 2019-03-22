@@ -22,6 +22,6 @@ public class healthbar: MonoBehaviour {
 	void Update()
 	{
         //实时监测血量
-        Value = (float)(gameObject.transform.parent.GetComponent<minons>().HP/100.0);
+        Value = (float)(gameObject.transform.parent.GetComponent<Minons>().HP/100.0);
 	}
 }

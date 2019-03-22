@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class minons : MonoBehaviour
+public class Minons : MonoBehaviour
 {
     public int HP;
     public int MP;
@@ -15,7 +15,7 @@ public class minons : MonoBehaviour
     public int maxdistance;
     public int attackrange, abilitytype;
     public States state;
-    public minons locked = null;
+    public Minons locked = null;
     private bool isMouseDown = false;
     private Vector3 lastMousePosition = Vector3.zero;
     private bool beingDragged;
@@ -30,10 +30,12 @@ public class minons : MonoBehaviour
     void Awake()
     {
         gb = GameObject.Find("mboard").GetComponent<board>();
+      
+       
     }
     void Start()
     {
-        //gb.addBattleList(this);
+        
     }
     // Update is called once per frame
     void Update()
@@ -69,7 +71,24 @@ public class minons : MonoBehaviour
         {
             int newx=(int)(transform.position.x+1)/2;
             int newy = (int)(transform.position.y+1) / 2;
-           
+            if(state==States.battle){
+                if (newx < 0)
+                {
+                    newx = 0;
+                }
+                if (newx > 4)
+                {
+                    newx = 4;
+                }
+                if (newy < 0)
+                {
+                    newy = 0;
+                }
+                if (newy > 4)
+                {
+                    newy = 4;
+                }
+            }
             transform.position = new Vector3((float)newx * 2, (float)newy * 2, 0.0f);
             
            
@@ -84,7 +103,7 @@ public class minons : MonoBehaviour
                 board.onedraged = "new";
             }
 
-           if (transform.position.x>=0&& transform.position.x <= 10&& transform.position.y <= 10&& transform.position.y >= 0&&state==States.wait)
+           if (transform.position.x>=0&& transform.position.x <= 8&& transform.position.y <= 8&& transform.position.y >= 0&&state==States.wait)
             {
                gb.addBattleList(this);
                 state = States.battle;
@@ -124,6 +143,7 @@ public class minons : MonoBehaviour
             if(locked == null)
             {
                 print("game end");
+                return;
             }
         }
         Ifinrange();
@@ -132,6 +152,11 @@ public class minons : MonoBehaviour
             blinkMove();
         }
     }
+
+    public void clear()
+    {
+        Destroy(this.gameObject);
+    }
     private void attackBehavior()
     {
         if (inrange)
@@ -139,7 +164,7 @@ public class minons : MonoBehaviour
             attack();
         }
     }
-    public minons deathBehavior()
+    public Minons deathBehavior()
     {
         if (HP < 1)
         {
@@ -155,9 +180,9 @@ public class minons : MonoBehaviour
     {
         locked = findTarget();
     }
-    private minons findTarget()
+    private Minons findTarget()
     {
-        Dictionary<minons, int> distanceList = new Dictionary<minons, int>();
+        Dictionary<Minons, int> distanceList = new Dictionary<Minons, int>();
         int i = 0;
         int j = 0;
         for (i = 0; i < 5; i++)
@@ -178,8 +203,8 @@ public class minons : MonoBehaviour
             }
         }
         int maxDis = 0;
-        minons maxMinon = null;
-        foreach (KeyValuePair<minons, int> entry in distanceList)
+        Minons maxMinon = null;
+        foreach (KeyValuePair<Minons, int> entry in distanceList)
         {
             if(entry.Key.player == this.player)
             {

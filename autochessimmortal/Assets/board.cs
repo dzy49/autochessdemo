@@ -9,17 +9,19 @@ public class board : MonoBehaviour
 {
     public int[] storepool;
     public int[] waitpool;
-    private List<minons> battleList;
+    private List<Minons> battleList;
     public static int SIZE=5;
-    public minons[,] gameBoard = new minons[SIZE, SIZE];
+    public Minons[,] gameBoard = new Minons[SIZE, SIZE];
     public static string onedraged="new";
     public static int count = 0;
-    private List<minons> deadList;
+    private List<Minons> deadList;
     public int gold;
     public game_state gamestate = 0;
-    public static int id = 0;
+    public static int id = -1;
     private Dictionary<byte, object> parameters = new Dictionary<byte, object>();
     public GameObject purchasePanel;
+    public int playerHealth = 100;
+    public int[] mybattleList;
     public enum game_state
     {
         purchase=0,
@@ -41,9 +43,9 @@ public class board : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        battleList = new List<minons>();
+        battleList = new List<Minons>();
         waitpool =new int[]{ -1, -1, -1, -1, -1};
-        deadList = new List<minons>();
+        deadList = new List<Minons>();
         gold = 5;
     }
 
@@ -61,13 +63,33 @@ public class board : MonoBehaviour
     private void FixedUpdate()
     {
         if (gamestate==game_state.battle) {
-            foreach (minons m in battleList)
+            bool AllOneSide = true;
+            int playerID = -1;
+            int count = 0;
+            foreach(Minons m in battleList)
+            {
+                count++;
+                if (playerID == -1)
+                {
+                    playerID = m.player;
+                }
+                else if (playerID != m.player)
+                {
+                    AllOneSide = false;
+                    break;
+                }
+            }
+            if (AllOneSide)
+            {
+                RoundEnd(playerID,count);
+            }
+            foreach (Minons m in battleList)
             {
                 m.CallBack(0);
                 //m.state = 0;
             }
 
-            foreach (minons m in battleList)
+            foreach (Minons m in battleList)
             {
                 m.CallBack(1);
                 //m.state = minons.States.battle;
@@ -76,10 +98,10 @@ public class board : MonoBehaviour
                 //attacksword.transform.localPosition = new Vector2(m.gameObject.transform.position.x, m.gameObject.transform.position.y+1);
             }
 
-            foreach (minons m in battleList)
+            foreach (Minons m in battleList)
             {
 
-                minons temp = m.deathBehavior();
+                Minons temp = m.deathBehavior();
                 // m.state = 2;
                 if (temp != null) {
                     deadList.Add(temp);
@@ -89,8 +111,59 @@ public class board : MonoBehaviour
         }
     }
 
+    public void StartBattle()
+    {
+        print("getcalled");
+        gamestate = game_state.battle;
+    }
+
+    public void RestoreBattleGround()
+    {
+        foreach(Minons m in battleList)
+        {
+       
+            m.clear();
+        }
+        battleList = new List<Minons>();
+        int[][] twoDbattleList = BattleReceiver.OneDtoTwoD(mybattleList);
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                if (twoDbattleList[i][j] != 0)
+                {
+                    GameObject a = (Resources.Load("warrior") as GameObject);
+                    a.GetComponent<Minons>().state = Minons.States.wait;
+                    a.transform.localPosition = new Vector2(i * 2, j * 2);
+                    a.GetComponent<Minons>().px = j;
+                    a.GetComponent<Minons>().py = i;
+                    a.GetComponent<Minons>().player = id;
+                    a.name = board.count.ToString();
+                    board.count++;
+                    Instantiate(a, new Vector3(j * 2.0F, i * 2, 0), Quaternion.identity);
+
+                }
+            }
+        }
+    }
+    public void RoundEnd(int winner,int damage)
+    {
+        gamestate = game_state.purchase;
+        if (winner != id)
+        {
+            playerHealth -= damage;
+        }
+        RestoreBattleGround();
+        Dictionary<byte, object> parameters = new Dictionary<byte, object>();
+        parameters[0] = winner;
+        parameters[1] = damage;
+        
+        //parameters[2] = loser;
+        //PhotonManager.Instance.OnOperationRequest((byte)OpCode.Battle, parameters, (byte)BattleCode.SendResult);
+    }
     public void SendBattleListRequest()
     {
+        mybattleList = GetCurrentBattleList();
         MinonsDto dto = new MinonsDto();
         dto.battleList = GetCurrentBattleList();
         dto.playerID = id;
@@ -124,13 +197,13 @@ public class board : MonoBehaviour
         gamestate = game_state.battle;
     }
 
-    public void addBattleList(minons theMinion)
+    public void addBattleList(Minons theMinion)
     {
         battleList.Add(theMinion);
         gameBoard[theMinion.px, theMinion.py] = theMinion;
     }
 
-    public void deleBattleList(minons theMinion)
+    public void deleBattleList(Minons theMinion)
     {
         battleList.Remove(theMinion);
         gameBoard[theMinion.px, theMinion.py] = null;
@@ -138,11 +211,11 @@ public class board : MonoBehaviour
 
     public void changePlace(int sx, int sy, int tx, int ty)
     {
-        minons temp = gameBoard[sx, sy];
+        Minons temp = gameBoard[sx, sy];
         gameBoard[sx, sy] = null;
         gameBoard[tx, ty] = temp;
     }
-    public minons GetMinons(int px, int py)
+    public Minons GetMinons(int px, int py)
     {
         return gameBoard[px, py];
     }

@@ -1,13 +1,14 @@
 ﻿using Common.Code;
 using Common.Dto;
 using ExitGames.Client.Photon;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleReceiver : MonoBehaviour, IReceiver {
-    board gameboard;
-    int playerID = board.id;
+    public board gameboard;
+    int playerID;
     public CountDown timer;
     // Use this for initialization
     void Start() {
@@ -28,9 +29,11 @@ public class BattleReceiver : MonoBehaviour, IReceiver {
                 timer.StartCountDown();
                 break;
             case BattleCode.SendList:
+                playerID = board.id;
                 MinonsDto battleDto = GetResponseFromJson<MinonsDto>(response);
-                
-                if (battleDto.playerID == playerID)
+                print(battleDto.playerID);
+                print(playerID);
+                if (battleDto.playerID != playerID)
                 {
                     int[][] temparr = OneDtoTwoD(battleDto.battleList);
                     VerticalMirror(temparr, 5);
@@ -41,21 +44,25 @@ public class BattleReceiver : MonoBehaviour, IReceiver {
                             if (temparr[i][j] != 0)
                             {
                                 GameObject a = (Resources.Load("warrior") as GameObject);
-                                Instantiate(a, new Vector3(j * 2.0F, i*2, 0), Quaternion.identity);
-                                a.GetComponent<minons>().state = minons.States.wait;
+                                a.GetComponent<Minons>().state = Minons.States.wait;
                                 a.transform.localPosition = new Vector2(i*2, j*2);
-                                a.GetComponent<minons>().px = j;
-                                a.GetComponent<minons>().py = i;
-                                a.GetComponent<minons>().player = playerID;
+                                a.GetComponent<Minons>().px = j;
+                                a.GetComponent<Minons>().py = i;
+                                a.GetComponent<Minons>().player = battleDto.playerID;
+                                 a.name = board.count.ToString();
                                 board.count++;
-                                a.name = board.count.ToString();
+                                Instantiate(a, new Vector3(j * 2.0F, i * 2, 0), Quaternion.identity);
+                               
                             }
                         }
                     }
                     
                 }
+                //gameboard.gamestate = board.game_state.battle;
+                gameboard.StartBattle();
                 break;
             case BattleCode.SendResult:
+                int winner = Int32.Parse(response.Parameters[0].ToString());
                 break;
         }
     }
@@ -65,7 +72,7 @@ public class BattleReceiver : MonoBehaviour, IReceiver {
         return JsonUtility.FromJson<Dto>(response.Parameters[0].ToString());
     }
 
-    int[][] OneDtoTwoD(int[] arr) {
+    public static int[][] OneDtoTwoD(int[] arr) {
         int[][] newarr =new int[5][];
         for(int i = 0; i < 5; i++)
         {

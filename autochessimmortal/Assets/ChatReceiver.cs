@@ -4,6 +4,7 @@ using ExitGames.Client.Photon;
 using Common.Code;
 using Common.Dto;
 using UnityEngine.SceneManagement;
+using System;
 
 //聊天房间的信息处理
 public class ChatReceiver : MonoBehaviour ,IReceiver
@@ -33,6 +34,10 @@ public class ChatReceiver : MonoBehaviour ,IReceiver
                 break;
             case RoomCode.Leave:                    //房间有人离开处理
                 chatView.SomeOneLeave(GetResponseFromJson<AccountDto>(response));
+                break;
+            case RoomCode.ID:
+                board.id = Int32.Parse(response.Parameters[0].ToString());
+                print("ID: "+board.id);
                 break;
             default:
                 break;

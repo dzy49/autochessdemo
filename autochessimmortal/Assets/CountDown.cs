@@ -5,17 +5,37 @@ using UnityEngine.UI;
 
 public class CountDown : MonoBehaviour {
 
-    public int TotalTime = 60;
+    public int TotalTime =  15;
+    float time = 15f;
     public board gameboard;
+    bool started=false;
     public void StartCountDown()
     {
 
         StartCoroutine(CountDownTimer());
-
+        started = true;
     }
+    void Update()
+    {
+        //时间减少
+        if (started == true)
+        {
+            time -= Time.deltaTime;
 
+            if (time <= 0)
+            {
+                gameboard.SendBattleListRequest();
+                started = false;
+            }
+        }
+    }
     IEnumerator CountDownTimer()
     {
+        if (TotalTime == 0)
+        {
+            print("!!!!!");
+        
+        }
         while (TotalTime >= 0)
         {
             this.GetComponent<Text>().text = TotalTime.ToString();
@@ -23,10 +43,7 @@ public class CountDown : MonoBehaviour {
             TotalTime--;
 
         }
-        if (TotalTime == 0)
-        {
-            gameboard.SendBattleListRequest();
-        }
+        
         
     }
 

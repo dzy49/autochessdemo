@@ -37,15 +37,19 @@ public class buy : MonoBehaviour {
             print(this.gameObject.name[4]);
             gb.storepool[Int32.Parse(this.gameObject.name[4].ToString())] = -1;
             GameObject a = (Resources.Load("warrior") as GameObject);
-            Instantiate(a, new Vector3(i * 2.0F,11, 0), Quaternion.identity);
-            a.GetComponent<minons>().state = minons.States.wait;
+            a.GetComponent<Minons>().state = Minons.States.wait;
+            a.GetComponent<Minons>().player = board.id;
+            a.name = board.count.ToString();
+            Instantiate(a, new Vector3(i * 2.0F,-5, 0), Quaternion.identity);
+          
+            print("minons ID:" + board.id);
             a.transform.localPosition = new Vector2(i,-5);
             board.count++;
-            a.name = board.count.ToString();
+           
             GameObject.Find("GoldText").GetComponent<Text>().text = (Int32.Parse(GameObject.Find("GoldText").GetComponent<Text>().text) - 1).ToString();
 
-
             this.gameObject.GetComponent<Text>().text = "";
+
 
         }
     }
