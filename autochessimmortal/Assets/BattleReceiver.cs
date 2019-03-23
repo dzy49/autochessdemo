@@ -62,7 +62,9 @@ public class BattleReceiver : MonoBehaviour, IReceiver {
                 gameboard.StartBattle();
                 break;
             case BattleCode.SendResult:
-                int winner = Int32.Parse(response.Parameters[0].ToString());
+                int player = Int32.Parse(response.Parameters[1].ToString());
+                int health = Int32.Parse(response.Parameters[0].ToString());
+                print("player:"+player +" health:"+ health);
                 break;
         }
     }

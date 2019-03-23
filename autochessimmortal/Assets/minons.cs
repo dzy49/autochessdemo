@@ -69,9 +69,34 @@ public class Minons : MonoBehaviour
         }
         else
         {
-            int newx=(int)(transform.position.x+1)/2;
-            int newy = (int)(transform.position.y+1) / 2;
-            if(state==States.battle){
+            if (state == States.wait)
+            {
+                int newx = (int)(transform.position.x + 1) / 2;
+                if (newx < 0)
+                {
+                    newx = 0;
+                }
+                if (newx > 4)
+                {
+                    newx = 4;
+                }
+                if (transform.position.x < 0 || transform.position.x > 8 || transform.position.y > 8 || transform.position.y < 0)
+                {
+                    transform.position = new Vector3((float)newx * 2, -4, 0.0f);
+                }
+                else
+                {
+                    gb.addBattleList(this);
+                    state = States.battle;
+                }
+            }
+           
+            
+            if (state==States.battle){
+                int newy = (int)(transform.position.y + 1) / 2;
+
+                int newx = (int)(transform.position.x + 1) / 2;
+
                 if (newx < 0)
                 {
                     newx = 0;
@@ -88,16 +113,16 @@ public class Minons : MonoBehaviour
                 {
                     newy = 4;
                 }
-            }
-            transform.position = new Vector3((float)newx * 2, (float)newy * 2, 0.0f);
-            
-           
-            if (state == States.battle)
-            {
+                transform.position = new Vector3((float)newx * 2, (float)newy * 2, 0.0f);
+
+
+                
                 gb.changePlace(px, py, newx, newy);
+                
+                px = newx;
+                py = newy;
             }
-            px = newx;
-            py = newy;
+           
             if (board.onedraged == this.gameObject.name)
             {
                 board.onedraged = "new";
@@ -105,8 +130,7 @@ public class Minons : MonoBehaviour
 
            if (transform.position.x>=0&& transform.position.x <= 8&& transform.position.y <= 8&& transform.position.y >= 0&&state==States.wait)
             {
-               gb.addBattleList(this);
-                state = States.battle;
+              
             }
             
             

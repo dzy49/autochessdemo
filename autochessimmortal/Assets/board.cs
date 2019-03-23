@@ -148,18 +148,19 @@ public class board : MonoBehaviour
     }
     public void RoundEnd(int winner,int damage)
     {
+        Dictionary<byte, object> parameters = new Dictionary<byte, object>();
+        parameters[0] = 0;
         gamestate = game_state.purchase;
         if (winner != id)
         {
             playerHealth -= damage;
+            parameters[0] = damage;
         }
         RestoreBattleGround();
-        Dictionary<byte, object> parameters = new Dictionary<byte, object>();
-        parameters[0] = winner;
-        parameters[1] = damage;
         
-        //parameters[2] = loser;
-        //PhotonManager.Instance.OnOperationRequest((byte)OpCode.Battle, parameters, (byte)BattleCode.SendResult);
+        
+        //parameters[1] = id;
+        PhotonManager.Instance.OnOperationRequest((byte)OpCode.Battle, parameters, (byte)BattleCode.SendResult);
     }
     public void SendBattleListRequest()
     {

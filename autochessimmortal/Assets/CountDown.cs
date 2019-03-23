@@ -11,7 +11,8 @@ public class CountDown : MonoBehaviour {
     bool started=false;
     public void StartCountDown()
     {
-
+        TotalTime = 15;
+        time = 15f;
         StartCoroutine(CountDownTimer());
         started = true;
     }
@@ -31,11 +32,7 @@ public class CountDown : MonoBehaviour {
     }
     IEnumerator CountDownTimer()
     {
-        if (TotalTime == 0)
-        {
-            print("!!!!!");
-        
-        }
+       
         while (TotalTime >= 0)
         {
             this.GetComponent<Text>().text = TotalTime.ToString();
