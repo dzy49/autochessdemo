@@ -15,12 +15,14 @@ public class healthbar: MonoBehaviour {
 			m_value=value;
 			//血条两边都收缩
 			front.localScale=new Vector3(m_value,1);
-			//将血条向左移动
-			front.localPosition=new Vector3((1-m_value)*-0.8f,0);
+            
+            //将血条向左移动
+            front.localPosition=new Vector3(((1-m_value)*-1f)+0.08f,0.14f);
 		}
 	}
 	void Update()
 	{
+        
         //实时监测血量
         Value = (float)(gameObject.transform.parent.GetComponent<Minons>().HP/100.0);
 	}

@@ -19,7 +19,8 @@ public class Minons : MonoBehaviour
     private bool isMouseDown = false;
     private Vector3 lastMousePosition = Vector3.zero;
     private bool beingDragged;
-
+    public GameObject deletebutton;
+    float deleteTime = 3;
     public enum States
     {
         wait=1,
@@ -42,7 +43,7 @@ public class Minons : MonoBehaviour
     {
 
         Vector2 mousePosition1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+        ///Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
         bool overSprite=false;
         //bool overSprite = GetComponent<SpriteRenderer>().bounds.Contains(mousePosition);
         if (board.onedraged == "new")
@@ -62,6 +63,11 @@ public class Minons : MonoBehaviour
         }
         if (beingDragged)
         {
+            deleteTime -= Time.deltaTime;
+            if (deleteTime <= 0)
+            {
+                deletebutton.SetActive(true);
+            }
             //Set the position to the mouse position
             transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
                                              Camera.main.ScreenToWorldPoint(Input.mousePosition).y,
@@ -69,6 +75,8 @@ public class Minons : MonoBehaviour
         }
         else
         {
+            //deletebutton.SetActive(false);
+            deleteTime = 1f;
             if (state == States.wait)
             {
                 int newx = (int)(transform.position.x + 1) / 2;
@@ -86,6 +94,11 @@ public class Minons : MonoBehaviour
                 }
                 else
                 {
+                    int y = (int)(transform.position.y + 1) / 2;
+
+                    int x = (int)(transform.position.x + 1) / 2;
+                    px = x;
+                    py = y;
                     gb.addBattleList(this);
                     state = States.battle;
                 }
@@ -113,12 +126,13 @@ public class Minons : MonoBehaviour
                 {
                     newy = 4;
                 }
+                int oldpx = px;
+                int oldpy = py;
+               
+                
+                
                 transform.position = new Vector3((float)newx * 2, (float)newy * 2, 0.0f);
-
-
-                
                 gb.changePlace(px, py, newx, newy);
-                
                 px = newx;
                 py = newy;
             }
@@ -126,11 +140,6 @@ public class Minons : MonoBehaviour
             if (board.onedraged == this.gameObject.name)
             {
                 board.onedraged = "new";
-            }
-
-           if (transform.position.x>=0&& transform.position.x <= 8&& transform.position.y <= 8&& transform.position.y >= 0&&state==States.wait)
-            {
-              
             }
             
             
@@ -482,6 +491,10 @@ public class Minons : MonoBehaviour
 
     public void attack()
     {
+        if (locked == null)
+        {
+            return;
+        }
 
         if (MP < 100)
         {

@@ -19,7 +19,8 @@ public class PhotonManager : MonoBehaviour, IPhotonPeerListener
     public AccountReceiver accountReceiver;                         //帐号处理
     public ChatReceiver chatRceiver;                                //聊天信息接收      
     public BattleReceiver battleReceiver;
-    
+    public DrawReceiver drawReceiver;
+
     public string MasterName;
 
     public Text tipText;      
@@ -82,6 +83,9 @@ public class PhotonManager : MonoBehaviour, IPhotonPeerListener
                 break;
             case OpCode.Battle:
                 battleReceiver.OnReceive(subCode,response);
+                break;
+            case OpCode.Draw:
+                drawReceiver.OnReceive(subCode, response);
                 break;
             default:
                 break;

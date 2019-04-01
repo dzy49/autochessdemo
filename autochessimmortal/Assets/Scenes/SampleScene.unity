@@ -1426,7 +1426,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.18950349, g: 0.24528301, b: 0.1254902, a: 1}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -1463,13 +1463,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.08027206, y: -0, z: -0, w: 0.996773}
   m_LocalPosition: {x: 6, y: 3, z: -10}
   m_LocalScale: {x: 1.0214, y: 1.0214, z: 1.0214}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -9.208, y: 0, z: 0}
 --- !u!224 &523484138 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224531128687552772, guid: a2ccef95cad2b6c4cace8591567af317,
@@ -1773,7 +1773,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 837985047}
-        m_MethodName: SendBattleListRequest
+        m_MethodName: degugPrint
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2337,7 +2337,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6390f94a332c69f41b983a7c6937bbe8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3dbe60eef4b31f641bb42afd414bc3f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2674,13 +2674,14 @@ GameObject:
   - component: {fileID: 1007193743}
   - component: {fileID: 1007193745}
   - component: {fileID: 1007193744}
+  - component: {fileID: 1007193746}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1007193743
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2741,6 +2742,18 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1007193742}
   m_CullTransparentMesh: 0
+--- !u!114 &1007193746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1007193742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c5f126e6b38c3a4ca1b11f097347934, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gb: {fileID: 837985047}
 --- !u!1 &1024661713
 GameObject:
   m_ObjectHideFlags: 0
@@ -3143,6 +3156,7 @@ GameObject:
   - component: {fileID: 1091944745}
   - component: {fileID: 1091944747}
   - component: {fileID: 1091944746}
+  - component: {fileID: 1091944748}
   m_Layer: 5
   m_Name: GoldText
   m_TagString: Untagged
@@ -3208,6 +3222,18 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1091944744}
   m_CullTransparentMesh: 0
+--- !u!114 &1091944748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1091944744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7888a363d463894ba7baef5f78fd7b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gb: {fileID: 837985047}
 --- !u!1 &1119420475
 GameObject:
   m_ObjectHideFlags: 0
@@ -4386,7 +4412,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 519420030}
-        m_MethodName: Refreshstore
+        m_MethodName: RefreshStoreFromServer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4704,6 +4730,7 @@ MonoBehaviour:
   accountReceiver: {fileID: 1091794632}
   chatRceiver: {fileID: 1230810911}
   battleReceiver: {fileID: 837985048}
+  drawReceiver: {fileID: 1007193746}
   MasterName: 
   tipText: {fileID: 1680690880}
 --- !u!4 &1556715209
@@ -6572,6 +6599,12 @@ Prefab:
       propertyPath: purchasePanel
       value: 
       objectReference: {fileID: 1007193742}
+    - target: {fileID: 212326310495372122, guid: 04f183cf56b9d62409e890246b9961c6,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3dbe60eef4b31f641bb42afd414bc3f3,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04f183cf56b9d62409e890246b9961c6, type: 2}
   m_IsPrefabAsset: 0

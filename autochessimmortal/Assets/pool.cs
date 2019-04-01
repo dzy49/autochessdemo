@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Common.Code;
+using Common.Dto;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +32,24 @@ public class pool : MonoBehaviour {
 		
 	}
 
+    
+    public void RefreshStoreFromServer()
+    {
+        Dictionary<byte, object> parameters = new Dictionary<byte, object>();
+        DrawDto drawDto = new DrawDto();
+        List<int> backList = new List<int>();
+        for(int i = 0; i < 5; i++)
+        {
+            if (gb.storepool[i] != -1)
+            {
+                backList.Add(gb.storepool[i]);
+            }
+        }
+
+        drawDto.storepool = backList.ToArray();
+        parameters[0] = JsonUtility.ToJson(drawDto);
+        PhotonManager.Instance.OnOperationRequest((byte)OpCode.Draw, parameters, (byte)DrawCode.Refresh);
+    }
     public void Refreshstore()
     {
         minonPool.AddRange(gb.storepool);

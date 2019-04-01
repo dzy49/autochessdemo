@@ -59,7 +59,37 @@ public class board : MonoBehaviour
     {
 
     }
-
+    public void degugPrint()
+    {
+        int count = 0;
+        string debugstring1 = "debug1: ";
+        string debugstring2 = "debug2: ";
+        string debugstring3 = "debug3: ";
+        for (int i = 0; i < mybattleList.Length; i++)
+        {
+            debugstring1 += mybattleList[i];
+        }
+        for(int j = 0; j < 5; j++)
+        {
+            for (int k= 0; k < 5; k++)
+            {
+                if (gameBoard[j, k])
+                {
+                    debugstring2 += "1";
+                }
+            }
+        }
+        for (int i = 0; i < battleList.Count; i++)
+        {
+            if (battleList[i])
+            {
+                debugstring3+= "1";
+            }
+        }
+        print(debugstring1);
+        print(debugstring2);
+        print(debugstring3);
+    }
     private void FixedUpdate()
     {
         if (gamestate==game_state.battle) {
@@ -92,10 +122,7 @@ public class board : MonoBehaviour
             foreach (Minons m in battleList)
             {
                 m.CallBack(1);
-                //m.state = minons.States.battle;
-                //GameObject attacksword = (GameObject)Instantiate(Resources.Load("swordpre"));
-                //attacksword.name = "sprite";
-                //attacksword.transform.localPosition = new Vector2(m.gameObject.transform.position.x, m.gameObject.transform.position.y+1);
+         
             }
 
             foreach (Minons m in battleList)
@@ -121,7 +148,7 @@ public class board : MonoBehaviour
     {
         foreach(Minons m in battleList)
         {
-       
+
             m.clear();
         }
         battleList = new List<Minons>();
@@ -156,15 +183,18 @@ public class board : MonoBehaviour
             playerHealth -= damage;
             parameters[0] = damage;
         }
+        else
+        {
+            gold += 1;
+        }
         RestoreBattleGround();
-        
-        
-        //parameters[1] = id;
         PhotonManager.Instance.OnOperationRequest((byte)OpCode.Battle, parameters, (byte)BattleCode.SendResult);
     }
     public void SendBattleListRequest()
     {
         mybattleList = GetCurrentBattleList();
+    
+        print("!!!" + count);
         MinonsDto dto = new MinonsDto();
         dto.battleList = GetCurrentBattleList();
         dto.playerID = id;
@@ -193,6 +223,7 @@ public class board : MonoBehaviour
         }
         return battlelist;
     }
+
     public void Changestate()
     {
         gamestate = game_state.battle;

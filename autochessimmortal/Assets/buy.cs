@@ -45,8 +45,8 @@ public class buy : MonoBehaviour {
             print("minons ID:" + board.id);
             a.transform.localPosition = new Vector2(i,-5);
             board.count++;
-           
-            GameObject.Find("GoldText").GetComponent<Text>().text = (Int32.Parse(GameObject.Find("GoldText").GetComponent<Text>().text) - 1).ToString();
+
+            gb.gold -= 1;
 
             this.gameObject.GetComponent<Text>().text = "";
 
@@ -56,6 +56,6 @@ public class buy : MonoBehaviour {
 
     public int GetGold()
     {
-        return Int32.Parse(GameObject.Find("GoldText").GetComponent<Text>().text);
+        return gb.gold;
     }
 }
